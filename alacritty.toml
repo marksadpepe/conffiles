@@ -1,0 +1,15 @@
+
+#working_directory = "/home/mark/code/"
+
+[window]
+dimensions = { columns = 134, lines = 40 }
+opacity = 0.9
+decorations_theme_variant = "Light"
+
+[font]
+size = 14.4
+builtin_box_drawing = true
+
+[colors.primary]
+foreground = "#f2f2f2"
+background = "#000000"
