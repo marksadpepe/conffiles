@@ -208,6 +208,9 @@ local on_attach = function(client, bufnr)
     }, bufnr)  -- Note: add in lsp client on-attach
 end
 
+-- Golang setup
+nvim_lsp.gopls.setup({})
+
 -- TS setup
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
