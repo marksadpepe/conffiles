@@ -91,8 +91,10 @@ let g:prettier#quickfix_enabled = 0
 " Turn on vim-sneak
 let g:sneak#label = 1
 
-colorscheme gruvbox
-"colorscheme OceanicNext
+"colorscheme gruvbox
+colorscheme OceanicNext
+"colorscheme ayu
+"colorscheme material
 "let g:material_terminal_italics = 1
 " variants: default, palenight, ocean, lighter, darker, default-community,
 "           palenight-community, ocean-community, lighter-community,
