@@ -2,7 +2,7 @@
 #working_directory = "/home/mark/code/"
 
 [window]
-dimensions = { columns = 134, lines = 40 }
+dimensions = { columns = 108, lines = 32 }
 opacity = 0.8
 decorations_theme_variant = "Light"
 
