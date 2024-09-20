@@ -17,3 +17,6 @@ background = "#000000"
 
 [cursor]
 style = { shape = "Block", blinking = "On"}
+
+[selection]
+save_to_clipboard = true
