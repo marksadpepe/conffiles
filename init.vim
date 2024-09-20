@@ -34,6 +34,8 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'folke/todo-comments.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 " color schemas
 Plug 'morhetz/gruvbox'  " colorscheme gruvbox
@@ -91,8 +93,8 @@ let g:prettier#quickfix_enabled = 0
 " Turn on vim-sneak
 let g:sneak#label = 1
 
-"colorscheme gruvbox
-colorscheme OceanicNext
+colorscheme gruvbox
+"colorscheme OceanicNext
 "colorscheme ayu
 "colorscheme material
 "let g:material_terminal_italics = 1
@@ -115,10 +117,74 @@ nnoremap ,<space> :nohlsearch<CR>
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+--vim.fn.sign_define('TodoSignBUG', {text = '🐞', texthl = 'ErrorMsg'})
 
 -- luasnip setup
 local luasnip = require 'luasnip'
 local async = require "plenary.async"
+
+-- todo-comments setup
+local todo_comments = require 'todo-comments'
+todo_comments.setup{
+  signs = true,
+  sign_priority = 8,
+  keywords = {
+    BUG = {
+      icon = '🐞',
+      color = '#d90209',
+      alt = {'FIX', 'FIXME', 'FIXIT'}
+    },
+    TODO = {icon = '🤓', color = '#2563EB'},
+    HACK = {icon = '🩼', color = '#e06a1b'},
+    WARN = {
+      icon = '🚧',
+      color = '#dbc21a',
+      alt = {'WARNING', 'XXX'}
+    },
+    PERF = {
+      icon = '🔩',
+      color = '#8c1aff',
+      alt = {'OPTIMIZE', 'PERFOMANCE'}
+    },
+    NOTE = {
+      icon = '📄',
+      color = '#00b33c',
+      alt = {'INFO'}
+    }
+  },
+  highlight = {
+    multiline = true, -- enable multine todo comments
+    multiline_pattern = '^.', -- lua pattern to match the next multiline from the start of the matched keyword
+    multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
+    before = '', -- 'fg' or 'bg' or empty
+    keyword = 'wide', -- 'fg', 'bg', 'wide', 'wide_bg', 'wide_fg' or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+    after = 'fg', -- 'fg' or 'bg' or empty
+    pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+    comments_only = true, -- uses treesitter to match keywords in comments only
+    max_line_len = 400, -- ignore lines longer than this
+    exclude = {},
+  },
+  colors = {
+    error = { 'DiagnosticError', 'ErrorMsg', '#d90209' },
+    warning = { 'DiagnosticWarn', 'WarningMsg', '#FBBF24' },
+    info = { 'DiagnosticInfo', '#2563EB' },
+    hint = { 'DiagnosticHint', '#10B981' },
+    default = { 'Identifier', '#7C3AED' },
+    test = { 'Identifier', '#FF00FF' }
+  },
+  search = {
+    command = 'rg',
+    args = {
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+    },
+    pattern = [[\b(KEYWORDS):]]
+  }
+}
+
 
 -- gitsigns setup
 local gitsigns = require 'gitsigns'
@@ -439,8 +505,7 @@ EOF
 
 " White colors for LSP messages in code
 set termguicolors
-hi DiagnosticError guifg=White
+hi DiagnosticError guifg=Red
 hi DiagnosticWarn  guifg=White
 hi DiagnosticInfo  guifg=White
 hi DiagnosticHint  guifg=White
-
