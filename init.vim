@@ -134,7 +134,7 @@ todo_comments.setup{
       color = '#d90209',
       alt = {'FIX', 'FIXME', 'FIXIT'}
     },
-    TODO = {icon = '🤓', color = '#2563EB'},
+    TODO = {icon = '🖊', color = '#2563EB'},
     HACK = {icon = '🩼', color = '#e06a1b'},
     WARN = {
       icon = '🚧',
@@ -142,7 +142,7 @@ todo_comments.setup{
       alt = {'WARNING', 'XXX'}
     },
     PERF = {
-      icon = '🔩',
+      icon = '🛠',
       color = '#8c1aff',
       alt = {'OPTIMIZE', 'PERFOMANCE'}
     },
@@ -347,15 +347,15 @@ nvim_lsp.tsserver.setup({
     end,
 })
 
-local null_ls = require("null-ls")
-null_ls.setup({
-    sources = {
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.formatting.prettier
-    },
-    on_attach = on_attach
-})
+--local null_ls = require("null-ls")
+--null_ls.setup({
+--    sources = {
+--        null_ls.builtins.diagnostics.eslint,
+--        null_ls.builtins.code_actions.eslint,
+--        null_ls.builtins.formatting.prettier
+--    },
+--    on_attach = on_attach
+--})
 
 -- Stylelint format after save
 require'lspconfig'.stylelint_lsp.setup{
@@ -509,3 +509,5 @@ hi DiagnosticError guifg=Red
 hi DiagnosticWarn  guifg=White
 hi DiagnosticInfo  guifg=White
 hi DiagnosticHint  guifg=White
+
+set colorcolumn=88
