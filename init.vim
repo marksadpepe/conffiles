@@ -117,7 +117,7 @@ nnoremap ,<space> :nohlsearch<CR>
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
---vim.fn.sign_define('TodoSignBUG', {text = '🐞', texthl = 'ErrorMsg'})
+vim.fn.sign_define('TodoSignBUG', {text = '🐞', texthl = 'ErrorMsg'})
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -473,6 +473,8 @@ autocmd FileType sh map <buffer> <C-h> :w<CR>:exec '!bash' shellescape(@%, 1)<CR
 autocmd FileType sh imap <buffer> <C-h> <esc>:w<CR>:exec '!bash' shellescape(@%, 1)<CR>
 
 autocmd FileType python set colorcolumn=88
+
+autocmd BufReadPost,BufWritePost *.json execute '%!jq .' | set filetype=json
 
 " set relativenumber
 " set rnu
