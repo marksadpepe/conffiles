@@ -13,6 +13,7 @@ set expandtab
 set autoindent
 set fileformat=unix
 filetype indent on      " load filetype-specific indent files
+filetype plugin on
 
 " for tabulation
 set smartindent
@@ -48,6 +49,12 @@ Plug 'xiyaowong/nvim-transparent'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'justinmk/vim-sneak'
 
+" Ruby
+Plug 'Shopify/ruby-lsp'
+
+" nerdcommenter
+Plug 'preservim/nerdcommenter'
+
 " JS/JSX/TS
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
@@ -56,7 +63,6 @@ Plug 'maxmellon/vim-jsx-pretty'
 " TS from here https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install --frozen-lockfile --production',
   \ 'for': ['javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
@@ -84,14 +90,42 @@ let g:netrw_liststyle = 3 " tree instead of plain view
 let g:netrw_browse_split = 3 " vertical split window when Enter pressed on file
 
 " Automatically format frontend files with prettier after file save
-let g:prettier#autoformat = 1
-let g:prettier#autoformat_require_pragma = 0
+"let g:prettier#autoformat = 1
+"let g:prettier#autoformat_require_pragma = 0
 
 " Disable quickfix window for prettier
-let g:prettier#quickfix_enabled = 0
+:let g:prettier#quickfix_enabled = 0
 
 " Turn on vim-sneak
 let g:sneak#label = 1
+
+" ---- nerdcommenter ----
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
 
 colorscheme gruvbox
 "colorscheme OceanicNext
@@ -215,9 +249,9 @@ gitsigns.setup {
     virt_text_priority = 100,
   },
   current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-  current_line_blame_formatter_opts = {
-    relative_time = false,
-  },
+  --current_line_blame_formatter_opts = {
+  --  relative_time = false,
+  --},
   sign_priority = 6,
   update_debounce = 100,
   status_formatter = nil, -- Use default
@@ -333,7 +367,7 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
     })
 end
 
-nvim_lsp.tsserver.setup({
+nvim_lsp.ts_ls.setup({
     on_attach = function(client, bufnr)
         client.server_capabilities.document_formatting = false
         client.server_capabilities.document_range_formatting = false
@@ -346,6 +380,14 @@ nvim_lsp.tsserver.setup({
         on_attach(client, bufnr)
     end,
 })
+
+-- Ruby setup
+--nvim_lsp.ruby_lsp.setup({
+--    init_options = {
+--        formatter = 'standard',
+--        linters = { 'standard' },
+--    },
+--})
 
 --local null_ls = require("null-ls")
 --null_ls.setup({
