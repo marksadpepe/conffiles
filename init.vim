@@ -360,6 +360,14 @@ end
 -- Golang setup
 nvim_lsp.gopls.setup({})
 
+-- C/C++ setup
+nvim_lsp.clangd.setup({
+  cmd = {'clangd-12', '--background-index', '--clang-tidy', '--log=verbose'},
+  init_options = {
+    fallbackFlags = { '-std=c++17', '-std=c11' },
+  },
+})
+
 -- TS setup
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
