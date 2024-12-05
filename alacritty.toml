@@ -1,6 +1,15 @@
 
 #working_directory = "/home/mark/code/"
 
+[general]
+import = [
+  # "~/.config/alacritty/themes/themes/autumn.toml"
+  "~/.config/alacritty/themes/themes/citylights.toml"
+  # "~/.config/alacritty/themes/themes/rose_pine_dawn.toml"
+  # "~/.config/alacritty/themes/themes/omni.toml"
+  # "~/.config/alacritty/themes/themes/hyper.toml"
+]
+
 [window]
 dimensions = { columns = 108, lines = 32 }
 opacity = 0.8
@@ -12,7 +21,7 @@ size = 16
 builtin_box_drawing = true
 
 [colors.primary]
-foreground = "#f2f2f2"
+foreground = "#ffffff"
 background = "#000000"
 
 [cursor]
