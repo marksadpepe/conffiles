@@ -1,7 +1,9 @@
 set mouse=a  " enable mouse
 set encoding=utf-8
+set spell
 set number
 set cursorline
+set ignorecase
 set noswapfile
 set scrolloff=7
 set relativenumber
@@ -43,6 +45,7 @@ Plug 'morhetz/gruvbox'  " colorscheme gruvbox
 Plug 'mhartington/oceanic-next'  " colorscheme OceanicNext
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'ayu-theme/ayu-vim'
+Plug 'tjdevries/colorbuddy.nvim'
 
 Plug 'xiyaowong/nvim-transparent'
 
@@ -124,13 +127,13 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
+" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
 colorscheme gruvbox
-"colorscheme OceanicNext
-"colorscheme ayu
-"colorscheme material
+" colorscheme OceanicNext
+" colorscheme ayu
+" colorscheme material
 "let g:material_terminal_italics = 1
 " variants: default, palenight, ocean, lighter, darker, default-community,
 "           palenight-community, ocean-community, lighter-community,
@@ -142,8 +145,8 @@ if (has('termguicolors'))
 endif
 
 " variants: mirage, dark, dark
-"let ayucolor="mirage"
-"colorscheme ayu
+" let ayucolor="mirage"
+" colorscheme ayu
 
 " turn off search highlight
 nnoremap ,<space> :nohlsearch<CR>
@@ -218,6 +221,165 @@ todo_comments.setup{
     pattern = [[\b(KEYWORDS):]]
   }
 }
+
+-- IlyasYOY colorscheme
+-- local colorbuddy = require 'colorbuddy'
+-- local Color = colorbuddy.Color
+-- local Group = colorbuddy.Group
+-- local c = colorbuddy.colors
+-- local g = colorbuddy.groups
+-- local s = colorbuddy.styles
+--
+-- -- setup colors
+-- local palette = {
+--     { keys = { "red_light" }, gui = "#722529" },
+--     { keys = { "red" }, gui = "#d75f5f" },
+--
+--     { keys = { "orange" }, gui = "#d7875f" },
+--     { keys = { "brown" }, gui = "#af875f" },
+--     { keys = { "brown_deep" }, gui = "#875f5f" },
+--
+--     { keys = { "green_deep" }, gui = "#5f875f" },
+--     { keys = { "green" }, gui = "#49503b" },
+--     { keys = { "green_light" }, gui = "#87af87" },
+--
+--     { keys = { "blue" }, gui = "#5f87af" },
+--     { keys = { "blue_dark" }, gui = "#3b4050" },
+--
+--     { keys = { "pink" }, gui = "#d787af" },
+--     { keys = { "purple" }, gui = "#8787af" },
+--
+--     -- Grayscale
+--     { keys = { "white" }, gui = "#bcbcbc" },
+--     { keys = { "grey" }, gui = "#949494" },
+--     { keys = { "dark" }, gui = "#767676" },
+--     { keys = { "darker" }, gui = "#585858" },
+--     { keys = { "darkest" }, gui = "#444444" },
+--     { keys = { "base" }, gui = "#262626" },
+--     { keys = { "black" }, gui = "#1c1c1c" },
+-- }
+--
+-- for _, value in ipairs(palette) do
+--     for _, key in ipairs(value.keys) do
+--         Color.new(key, value.gui)
+--     end
+-- end
+--
+-- -- EDITOR BASICS
+-- -- https://neovim.io/doc/user/syntax.html#group-name
+--
+-- -- Custom groups
+-- Group.new("Noise", c.dark, c.none, s.none)
+--
+-- -- Basic groups
+-- Group.new("Comment", c.dark, c.none, s.none)
+-- Group.new("Normal", c.white, c.none, s.none)
+--
+-- Group.new("NonText", c.darkest, c.none, s.none)
+-- Group.new("Error", c.red, c.none, s.none)
+-- Group.new("Number", c.green_light, c.none, s.none)
+-- Group.new("Special", c.purple, c.none, s.none)
+-- Group.new("String", c.green_deep, c.none, s.none)
+-- Group.new("Title", c.blue, c.none, s.none)
+-- Group.new("Todo", c.pink, c.none, s.none)
+-- Group.new("Warning", c.orange, c.none, s.none)
+--
+-- -- https://neovim.io/doc/user/syntax.html#hl-User1
+-- Group.new("User1", c.brown, c.none, s.none)
+-- Group.new("User2", c.blue, c.none, s.none)
+-- Group.new("User3", c.brown_deep, c.none, s.none)
+--
+-- -- diff
+-- Group.new("Added", g.Normal, c.green, s.none)
+-- Group.new("Changed", g.Normal, c.blue_dark, s.none)
+-- Group.new("Removed", g.Normal, c.red_light, s.none)
+--
+-- -- search and highlight stuff
+-- Group.new("MatchParen", c.Normal, c.none, s.underline)
+--
+-- Group.new("CurSearch", c.pink, c.none, s.underline)
+-- Group.new("IncSearch", c.pink, c.none, s.none)
+-- Group.new("Search", c.pink, c.none, s.none)
+--
+-- Group.new("Pmenu", c.darker, c.black, s.none)
+-- Group.new("PmenuSel", c.grey, c.black, s.none)
+-- Group.new("PmenuThumb", c.brown, c.black, s.none) -- not sure what this is
+-- Group.new("WildMenu", c.pink, c.base, s.none)
+--
+-- Group.new("StatusLine", c.none, c.base, s.none)
+-- Group.new("StatusLineNC", c.black, c.black, s.none)
+--
+-- Group.new("Visual", c.blue, c.base, s.none)
+-- Group.new("VisualNOS", c.blue, c.base, s.none)
+--
+-- Group.new("qffilename", g.Title, g.Title, g.Title)
+--
+-- -- spelling problesm are shown!
+-- Group.new("SpellBad", c.red, c.none, s.undercurl)
+-- Group.new("SpellCap", c.orange, c.none, s.undercurl)
+-- Group.new("SpellLocal", c.brown, c.none, s.undercurl)
+-- Group.new("SpellRare", c.blue, c.none, s.undercurl)
+--
+-- -- LINKS
+-- Group.link("Constant", g.Normal)
+-- Group.link("Boolean", g.Number)
+-- Group.link("Character", g.Number)
+-- Group.link("Conditional", g.Normal)
+-- Group.link("Debug", g.Todo)
+-- Group.link("Delimiter", g.Normal)
+-- Group.link("Directory", g.String)
+-- Group.link("Exception", g.Normal)
+-- Group.link("Function", g.Special)
+-- Group.link("Identifier", g.Normal)
+-- Group.link("Include", g.Normal)
+-- Group.link("Keyword", g.Noise)
+-- Group.new("Label", g.Normal, g.Normal, g.Normal + s.bold)
+-- Group.link("Macro", g.User2)
+-- Group.link("Operator", g.Noise)
+-- Group.link("PreProc", g.Normal)
+-- Group.link("Repeat", g.Normal)
+-- Group.link("SpecialChar", g.Special)
+-- Group.link("SpecialKey", g.Special)
+-- Group.link("Statement", g.Normal)
+-- Group.link("StorageClass", g.Normal)
+-- Group.link("Structure", g.Normal)
+-- Group.link("Tag", g.Normal)
+-- Group.link("Type", g.User3)
+-- Group.link("TypeDef", g.User3)
+--
+-- -- Diagnostics
+-- Group.new(
+--     "DiagnosticUnderlineError",
+--     c.none,
+--     c.none,
+--     s.underline,
+--     c.red
+-- )
+-- Group.new(
+--     "DiagnosticUnderlineWarn",
+--     c.none,
+--     c.none,
+--     s.underline,
+--     c.orange
+-- )
+-- Group.new("DiagnosticUnderlineHint", c.none, c.none, s.underline)
+-- Group.new("DiagnosticUnderlineInfo", c.none, c.none, s.underline)
+-- Group.link("DiagnosticError", g.Error)
+-- Group.link("DiagnosticWarn", g.Warning)
+-- Group.link("DiagnosticHint", g.Comment)
+-- Group.link("DiagnosticInfo", g.Comment)
+-- Group.link("DiagnosticOk", g.String)
+--
+-- -- GitSigns
+-- Group.new("GitSignsAdd", c.green_light, c.none, s.none)
+-- Group.new("GitSignsChange", c.orange, c.none, s.none)
+-- Group.new("GitSignsDelete", c.red, c.none, s.none)
+--
+-- -- Telescope
+-- Group.link("TelescopeBorder", g.Noise)
+-- Group.link("TelescopeMatching", g.User1)
+-- Group.link("TelescopePromptCounter", g.Noise)
+
 
 
 -- gitsigns setup
@@ -379,6 +541,21 @@ nvim_lsp.ts_ls.setup({
     on_attach = function(client, bufnr)
         client.server_capabilities.document_formatting = false
         client.server_capabilities.document_range_formatting = false
+
+        buf_map(bufnr, "n", "<C-i>", "", {
+          noremap = true,
+          silent = true,
+          callback = function()
+            inlay_enabled = not inlay_enabled
+            if inlay_enabled then
+              vim.lsp.inlay_hint.enable(true)
+            else
+              vim.lsp.inlay_hint.enable(false)
+            end
+          end
+
+        })
+
         local ts_utils = require("nvim-lsp-ts-utils")
         ts_utils.setup({})
         ts_utils.setup_client(client)
@@ -387,6 +564,18 @@ nvim_lsp.ts_ls.setup({
         buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
         on_attach(client, bufnr)
     end,
+    init_options = {
+      preferences = {
+        includeInlayParameterNameHints = "all",  -- Показывать все подсказки
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
 })
 
 -- Ruby setup
