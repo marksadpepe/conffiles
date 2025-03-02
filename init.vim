@@ -52,6 +52,9 @@ Plug 'xiyaowong/nvim-transparent'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'justinmk/vim-sneak'
 
+" Swift
+Plug 'swiftlang/sourcekit-lsp'
+
 " Ruby
 Plug 'Shopify/ruby-lsp'
 
@@ -519,6 +522,11 @@ local on_attach = function(client, bufnr)
     }, bufnr)  -- Note: add in lsp client on-attach
 end
 
+-- Swift setup
+nvim_lsp.sourcekit.setup({
+  root_dir = function() return vim.loop.cwd() end
+})
+
 -- Golang setup
 nvim_lsp.gopls.setup({})
 
@@ -619,7 +627,6 @@ for _, lsp in ipairs(servers) do
   }
 end
 EOF
-
 
 " Delete buffer while keeping window layout (don't close buffer's windows).
 " Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
@@ -723,7 +730,7 @@ let g:transparent_enabled = v:true
 tnoremap <Esc> <C-\><C-n>
 
 " Telescope bindings
-nnoremap ,f <cmd>Telescope find_files<cr>
+" nnoremap ,f <cmd>Telescope find_files<cr>
 nnoremap ,g <cmd>Telescope live_grep<cr>
 
 " Go to next or prev tab by H and L accordingly
@@ -744,6 +751,85 @@ lua << EOF
 require('telescope').load_extension('fzf')
 EOF
 
+" Telescope create/open a file
+lua << EOF
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
+local conf = require('telescope.config').values
+
+function create_new_file(prompt_bufnr)
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  local file_name = current_picker:_get_prompt()
+  
+  actions.close(prompt_bufnr)
+  
+  if not file_name or file_name == "" then
+    print("File is not specified")
+    return
+  end
+  
+  local full_path = vim.fn.getcwd() .. "/" .. file_name
+  
+  if vim.fn.filereadable(full_path) == 0 then
+    local create_command = "touch " .. vim.fn.shellescape(full_path)
+    vim.fn.system(create_command)
+    print("File created: " .. file_name)
+  else
+    print("File opened: " .. file_name)
+  end
+  
+  vim.cmd("tabnew " .. vim.fn.fnameescape(full_path))
+end
+
+function FileCreationSelection(prompt_bufnr)
+  local selection = action_state.get_selected_entry()
+  
+  if selection then
+    actions.close(prompt_bufnr)
+    vim.cmd("tabnew " .. vim.fn.fnameescape(selection.value))
+  else
+    create_new_file(prompt_bufnr)
+  end
+end
+
+function OpenTelescopeForFileCreation()
+  pickers.new({}, {
+    prompt_title = 'Create/open a file',
+    finder = finders.new_table({
+      results = vim.fn.glob('**/*', false, true),
+      entry_maker = function(entry)
+        return {
+          value = entry,
+          display = entry,
+          ordinal = entry
+        }
+      end
+    }),
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      map('i', '<CR>', function()
+        FileCreationSelection(prompt_bufnr)
+      end)
+      map('n', '<CR>', function()
+        FileCreationSelection(prompt_bufnr)
+      end)
+      
+      map('i', '<C-c>', function()
+        create_new_file(prompt_bufnr)
+      end)
+      map('n', '<C-c>', function()
+        create_new_file(prompt_bufnr)
+      end)
+      
+      return true
+    end
+  }):find()
+end
+EOF
+
+nnoremap <leader>f :lua OpenTelescopeForFileCreation()<CR>
 " White colors for LSP messages in code
 set termguicolors
 hi DiagnosticError guifg=Red
