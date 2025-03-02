@@ -830,6 +830,21 @@ end
 EOF
 
 nnoremap <leader>f :lua OpenTelescopeForFileCreation()<CR>
+
+" Build Typescript Project With Hotkey
+lua << EOF
+function BuildTypeScriptProject()
+  local build_command = "npm run build"
+
+  vim.cmd("below 10split")
+  vim.cmd("terminal " .. build_command)
+
+  vim.cmd("startinsert")
+end
+
+vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>lua BuildTypeScriptProject()<CR>', { noremap = true, silent = true })
+EOF
+
 " White colors for LSP messages in code
 set termguicolors
 hi DiagnosticError guifg=Red
